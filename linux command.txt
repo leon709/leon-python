@@ -1,0 +1,200 @@
+linux command:
+
+1. view process list and kill process
+~$ ps ax
+~$ ps ax | grep <processname>
+
+Or
+~$ ps aux|grep <txt>
+
+2. kill process
+~$ kill <PID1> <PID2>
+~$ kill 2727 2745
+
+
+3. change the directory owner
+take /mnt as example
+~$ sudo chown -R leon:leon mnt
+~$ rm -rf xxxxx/ && mkdir fffff
+
+~$ sudo chmod 755
+~$ chmod 755 restart_property_history_consumer.sh
+
+4. search some file:
+1) find the file 'setuptools-18.3.1.zip' in path /home
+~$ find /home -name setuptools-18.3.1.zip 2>/dev/null
+2) find the files with name contain words 'abc', name start with 'abc', end with 'abc'
+~$ find /home -name '*abc*'
+~$ find /home -name 'abc*'
+~$ find /home -name '*abc'
+
+# 
+~$ grep -rn 'xx dxdd' *.py
+
+
+5. Git command:
+~$ git branch
+~$ git checkout develop
+~$ git submodule init
+~$ git submodule update
+~$ git clone <url>
+
+ $ git stash pop
+ $ git pull
+ $ git diff
+
+
+
+6. Terminator setting:
+path:org/gnome/desktop/applications/terminal
+exec: x-terminal-emulator
+exec-arg: -e
+
+System default terminal:
+exec: gnome-terminal
+exec-arg: -x
+
+
+7. install dconf-tools
+~$ sudo apt-get install dconf-tools
+
+
+8. 
+yolk -l
+
+
+9. Nova testing
+switch user:
+~$ sudo su - ubuntu
+~$ sudo su ubuntu
+
+go into virtual env:
+~$ . /opt/venv/bin/activate
+
+10. Router
+~$ sudo ip ro add 10.225.1.0/24 via 10.0.125.211
+~$ sudo ip ro add 10.255.1.0/24 via 10.0.125.211
+
+Add/delete route:
+$ route -n
+***$ sudo route add -net 10.255.1.0 netmask 255.255.255.0 gw 10.0.125.214
+
+
+delete router:
+***$ sudo route del -net 10.255.1.0 netmask 255.255.255.0 gw 10.0.125.211
+
+***$ sudo route add -net 172.24.0.0 netmask 255.255.0.0 gw 10.0.125.211
+***$ sudo route add -net 10.255.1.0 netmask 255.255.255.0 gw 10.0.125.211
+
+
+Check a destination route:
+$ mtr 10.255.1.39
+
+
+view process count:
+~$ ps aux | grep 'ppppp' | wc -l
+
+kill process:
+kill -9 $(ps aux|grep 'adfad' |awk '{print $2}')
+kill -9 $(ps aux|grep 'ddd' |awk '{print $2}')
+
+
+11. Mysql
+install and setting:
+$ sudo apt-get install mysql-server-5.6
+
+login connection: mysql -u root -p
+
+
+12. history [n]
+
+13. tail 
+$ tail -n 50 somelog.txt
+$ tail -f filename.log
+
+
+14. Some directory operation
+$ cd -
+$ cd ..
+$ cd 
+
+$ cp /home/leon/xxx -r /home/leon/eclipseworkspaces/
+
+15. crontab:
+/etc/crontab
+
+$ crontab -e
+$ sudo service cron restart
+
+16. curl
+1) need to install: sudo apt-get install curl
+
+2) Nova addrees geocoder:
+$ curl -H "X-MData-Key:CHUMAGATHUQ9VE7AYEBR" http://service.xx.xx.net/xx/xx?pp=aaaaaaaaaa
+$ curl -H "X-MData-Key:CHUMAGATHUQ9VE7AYEBR" http://service.xx.xx.net/xx/xx?pp=aaaaaaaaaa
+
+
+17. chmod
+$ chmod 755 restart_property_history_consumer.sh
+
+18 Python Virtual environment:
+	1). install
+	$ sudo pip install virtualenv
+
+	2). make one
+	$ mkdir ~/environments/
+	$ virtualenv ~/environments/tutorial/
+
+	3). 
+	$ cd ~/environments/tutorial/
+	$ ls
+	bin include lib local
+
+	$ source bin/activate
+
+
+19: link
+ln -s /home/leon/git services
+
+copy file from remote machine by ssh:
+$ scp lsu@10.255.1.191:/mnt/log/test_addr_*.log ~/tmp/addr_test_log
+
+VI: 
+ vi column edit:
+ 1. Ctrl+V
+ 2. use up/down to select rows
+ 3. Shift+i to edit
+ 4. edit one row
+ 5. escape
+
+Mysql view table size:
+SELECT TABLE_NAME AS 'Table', round(((data_length + index_length) / 1024 / 1024), 2) AS Size_in_MB
+FROM information_schema.TABLES 
+WHERE table_schema = 'mydb'
+ORDER BY Size_in_MB DESC
+
+https://lsu:351Colors@gitlab.xx.com/git/xx.git
+https://"lsu":"Shuige#mvt1"@gitlab.movoto.com/git/xxx.git
+
+***************
+sudo route del default gw 10.255.1.35 && sudo route add default gw 10.255.1.35 dev eth0
+***************
+
+
+cd /home/leon/mytool/smartgit/bin/ && . smartgit.sh >/dev/null 2>&1 & 
+
+$ export LANGUAGE=en_US:zh_CN.UTF-8 && export LC_ALL=C
+$ . ~/.profile
+
+
+cat xxx_running_status.log | grep '2016-08-16' | grep 'xxx' | sed -n '/\"abcd\": 0/!p'
+
+
+############### reconfig the locale: ##################################
+=======================================================================
+locale-gen en_US.UTF-8
+sudo localedef -i en_US -f UTF-8 en_US.UTF-8
+export LANGUAGE=en_US.UTF-8 && export LANG=en_US.UTF-8 && export LC_ALL=en_US.UTF-8
+locale-gen en_US.UTF-8
+sudo dpkg-reconfigure locales
+=======================================================================

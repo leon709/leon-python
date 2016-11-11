@@ -1,0 +1,93 @@
+
+
+Git:
+
+# create reposistory
+1. mkdir MyProject
+2. cd MyPoject
+3. git init
+4. do some file changes
+5. git add .
+6. git diff
+7. git status
+8. git commit -m "xxx"
+9. git status
+10. git remote add origin <server>
+   $ git remote add origin 
+
+.project
+.pydevproject
+
+
+11. git push origin master
+
+# create a new branch and switch to it
+$ git checkout -b <newbranch>
+$ git push --set-upstream origin <newbranch>
+
+
+#List branches
+git branch -a
+
+# if your local branch name changed and connect to different name in remote
+# when do push, you should do it like this:
+$ git push origin HEAD:<remote_br_name>
+
+
+# delete a branch
+# del branch in your local
+git branch -d <branch_name>
+
+# del remote branch
+git push origin --delete asso_url
+
+# merge a branch develop to master: develop -> master
+git checkout master
+git merge develop
+git diff
+git status
+
+#when you do merge, those changes without conflict will be add to stage automatically
+#if there is conflict in some files, open it and edit manually to resolve conflicts
+#then:
+git add <file>
+
+git diff <source_branch> <target_branch>
+
+# git log only show the log of the current branch
+git log --graph --pretty=oneline --abbrev-commit
+
+
+## make some changes in a file: readme.txt
+git status    # see the status, now the status is modified
+git add readme.txt     # stage the file, status is staged
+git reset readme.txt   # to unstage the file, status change to modified
+git reset HEAD         # do the same thing, because only one file changed to be committed
+
+## if you have already done commit, but not pushed, now you want to discard the commit
+git log     # to view the last commit you made, get the SHA code of the previous commit: d00ec5309ec8ca1fddeb855c442edd39b7effcf7
+git reset d00ec5309ec8ca1fddeb855c442edd39b7effcf7
+# the head will point to the reset commit now, and the last commit discard, and the changes will be unstaged
+
+## you have 2 commits in the log tree now, but not pushed yet, you can reset any time before you do push
+# view the changes diff of branch master and develop, the view is base on your local data, not remote, 
+git diff master develop
+
+# now push
+
+
+#You commit&push some changes in a branch develop, now you want to apply your changes in master branch
+After you check diff: git diff master develop
+#You see some other teammember also have some changes commit&push in the develop branch, but he did not want to apply to master yet.
+How to do?
+do cherry-pick is a good option:
+1. git log   				# to pick your commits, gennerally order by datetime, get commits SHA code, in develop
+2. git checkout master			# switch to the target branch
+3. git cherry-pick SHACODE1 SHACODE2... # make sure your local data in branch master coincident with remote origin/master
+
+Now If the cherry-pick commits have no conflicts, they have been staged, but everything not pushed yet.
+If there are some conflicts, those files will not be staged, you need to open the file to resolve conficts and save.
+After conflicts resolved, status is modified, need to do git add to make them staged
+$ git add <files>
+$ git push
+
