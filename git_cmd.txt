@@ -91,3 +91,28 @@ After conflicts resolved, status is modified, need to do git add to make them st
 $ git add <files>
 $ git push
 
+
+============== use ssh key to connect and operate the git ============================
+check if there is already a ssh key in your machine:
+$ cat ~/.ssh/id_rsa.pub
+If you can see a string start with "ssh-rsa", that means you already have a key, then you can use it and skip the key generate step.
+
+To generate a new ssh key:
+
+$ ssh-keygen -t rsa -C "lsu@movoto.com"
+
+This command will prompt you for a location and filename to store the key pair and for a password. 
+When prompted for the location and filename, just press enter to use the default. If you use a different name, the key will not be used automatically.
+Use the command below to show your public key:
+$ cat ~/.ssh/id_rsa.pub
+
+Copy-paste the key to the 'My SSH Keys' section under the 'SSH' tab in your user profile. 
+Please copy the complete key starting with ssh-rsa and ending with your username and host.
+
+test the ssh key:
+$ ssh git@gitlab.xxx.com
+if output contains below msg means correct and success:
+Welcome to GitLab, Leon Su!
+Connection to gitlab.xxx.com closed.
+
+
