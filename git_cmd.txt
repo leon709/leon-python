@@ -115,4 +115,23 @@ if output contains below msg means correct and success:
 Welcome to GitLab, Leon Su!
 Connection to gitlab.xxx.com closed.
 
+====================== git config ===============================
+$ vi ~/.gitconfig
+-----------------------------------------------------------------
+[user]
+        name = leon
+        email = lsu@movoto.com
+[push]
+        default = simple
+[core]
+        editor = vim
+[alias]
+        st = status
+        ck = checkout
+        df = diff
+        cp = cherry-pick
+        cm = commit
+        ckm = checkout master
+        br = branch
+-----------------------------------------------------------------
 
