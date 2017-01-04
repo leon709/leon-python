@@ -159,6 +159,11 @@ ln -s /home/leon/git services
 copy file from remote machine by ssh:
 $ scp lsu@10.255.1.191:/mnt/log/test_addr_*.log ~/tmp/addr_test_log
 
+
+scp ubuntu@10.255.1.191:/opt/batchscripts/postconverter_feature/postconverter/src/cache_geo_data.dat /home/leon/eclipseworkspaces/Nova_Dev/src_postconverter
+
+
+
 VI: 
  vi column edit:
  1. Ctrl+V
@@ -174,7 +179,7 @@ WHERE table_schema = 'mydb'
 ORDER BY Size_in_MB DESC
 
 https://lsu:351Colors@gitlab.xx.com/git/xx.git
-https://"lsu":"Shuige#mvt1"@gitlab.movoto.com/git/xxx.git
+https://"lsu":"Shuige#mvt1"@gitlab.xxx.com/git/xxx.git
 
 ***************
 sudo route del default gw 10.255.1.35 && sudo route add default gw 10.255.1.35 dev eth0
@@ -198,3 +203,10 @@ export LANGUAGE=en_US.UTF-8 && export LANG=en_US.UTF-8 && export LC_ALL=en_US.UT
 locale-gen en_US.UTF-8
 sudo dpkg-reconfigure locales
 =======================================================================
+
+
+rsync -aqvr --checksum /opt/code/mycode/abcd /home/leon/mycode
+
+# word count -lines
+wc -l city_state_invalid_listings.txt PROnly_Property_url_to_fix.txt
+

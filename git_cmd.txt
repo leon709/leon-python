@@ -37,7 +37,7 @@ $ git push origin HEAD:<remote_br_name>
 # delete a branch
 # del branch in your local
 git branch -d <branch_name>
-
+	
 # del remote branch
 git push origin --delete asso_url
 
@@ -59,7 +59,7 @@ git log --graph --pretty=oneline --abbrev-commit
 
 
 ## make some changes in a file: readme.txt
-git status    # see the status, now the status is modified
+git status             # see the status, now the status is modified
 git add readme.txt     # stage the file, status is staged
 git reset readme.txt   # to unstage the file, status change to modified
 git reset HEAD         # do the same thing, because only one file changed to be committed
@@ -81,7 +81,7 @@ After you check diff: git diff master develop
 #You see some other teammember also have some changes commit&push in the develop branch, but he did not want to apply to master yet.
 How to do?
 do cherry-pick is a good option:
-1. git log   				# to pick your commits, gennerally order by datetime, get commits SHA code, in develop
+1. git log   				    # to pick your commits, gennerally order by datetime, get commits SHA code, in develop
 2. git checkout master			# switch to the target branch
 3. git cherry-pick SHACODE1 SHACODE2... # make sure your local data in branch master coincident with remote origin/master
 
@@ -90,6 +90,11 @@ If there are some conflicts, those files will not be staged, you need to open th
 After conflicts resolved, status is modified, need to do git add to make them staged
 $ git add <files>
 $ git push
+
+========reset local branch to remote branch status, discard any local changes ========
+git reset --hard origin/asso_url
+
+git reset --hard origin/develop
 
 
 ============== use ssh key to connect and operate the git ============================
@@ -132,6 +137,16 @@ $ vi ~/.gitconfig
         cp = cherry-pick
         cm = commit
         ckm = checkout master
+		ckd = checkout develop
         br = branch
------------------------------------------------------------------
+        mg = merge
+        rs = reset
 
+====================== git config ===============================
+
+pip install -e git+git@gitlab.xxx.com:git/Utilities.git@package#egg=Utilities
+pip install -e git+https://gitlab.xxx.com/git/Utilities.git@package#egg=Utilities
+
+
+# git ignore the submodules had been pushed
+git update-index --assume-unchanged Utilities
