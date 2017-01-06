@@ -4,6 +4,8 @@ from flask import make_response, render_template
 import traceback
 
 app = flask.Flask(__name__)
+app.jinja_loader.searchpath.append("/home/leon/mycodebase/leon-python")
+
 
 import logging
 logger = logging.getLogger("tools")
@@ -16,12 +18,6 @@ def hello():
 
 @app.route("/test/<page>")
 def test(page):
-    
-    pp = "/home/leon/mycodebase/leon-python"
-    
-    app.jinja_loader.searchpath.append(pp)
-    
-    print app.jinja_loader.searchpath
     
     return render_template(page + ".html")
     
