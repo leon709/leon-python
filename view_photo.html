@@ -2,7 +2,7 @@
 <head>
 <title>view RETS photo</title>
 <script type="text/javascript" language="JavaScript">
-function next_photo(){
+function next_photo(delta){
 	var cid = document.getElementById("pid").innerHTML;
 	var i=0;
 	if (cid !=''){
@@ -14,12 +14,14 @@ function next_photo(){
 	var purl;
 	if (rows != ''){
 		lines = rows.split("\n");
-		if(i==lines.length){
-			i = 0;
-		}
-		purl = lines[i];
 	}
-	i++;
+	
+	i += delta;
+	if (i<=0){i=0;}
+	if (i>=lines.length){i=lines.length-1;}
+	
+	purl = lines[i];
+	
 	document.getElementById("pid").innerHTML=i;
 	document.getElementById("purl").innerHTML=purl;
 	document.getElementById("s_photo").src=purl;
@@ -35,11 +37,11 @@ function trim(str){
 <table>
 <tr>
 <td>
-<textarea id="url_list" rows="20" cols="80"></textarea>
+<textarea id="url_list" rows="20" cols="80" onchange="javascript:next_photo(0);"></textarea>
 <br>
 <input value="Show" type="button" />
-
-<input value="Next" type="button" onclick="javascript:next_photo();" /><br>
+<input value=" << " type="button" onclick="javascript:next_photo(-1);" />
+<input value=" >> " type="button" onclick="javascript:next_photo(1);" /><br>
 <span id="pid" ></span><br>
 <span id="purl" ></span>
 </td>
