@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" language="JavaScript">
+        function trim(str){
+            var s=str.replace(/^\s\s*/,'').replace(/\s\s*$/,'');
+            return s;
+        }
+        function convert(){
+            var rs="(";
+            var rows = document.getElementById("src_str").value;
+            var lines = rows.split("\n");
+            var i = 0;
+            for(i=0;i<lines.length-1;i++){
+                if(trim(lines[i])!=''){
+                    rs += "'"+trim(lines[i])+"',";
+                    if((i+1)%3==0){
+                        rs += "\n";
+                    }
+                }
+            }
+            if(trim(lines[i]) != ''){
+                rs += "'"+ trim(lines[i])+"')";
+            }
+            
+            document.getElementById("rs_str").value=rs;
+            document.getElementById("item_count").innerHTML='<b> Count: '+(i+1) +'</b>';
+        }
+        function build_criteria(){
+            var rawuuid = document.getElementById("raw_uuid").value;
+
+            var ctype = get_radio_value("ctype");
+
+            rs = "{'type':'PROPERTY','" + ctype + "':'"+rawuuid+"'}"
+            document.getElementById("mongo_criteria").value=rs;
+        }
+        function get_radio_value(rname){
+            var chkObjs = document.getElementsByName(rname);
+            for(var i=0;i<chkObjs.length;i++){
+                if(chkObjs[i].checked){
+                    return chkObjs[i].value;
+                }
+            }
+            return '';
+        }
+        function convert_csv(){
+            var rows = document.getElementById("src_str").value;
+            var lines = rows.split("\n");
+            var rs = lines.join()
+            document.getElementById("rs_str").value=rs;
+            document.getElementById("item_count").innerHTML='<b> Count: '+lines.length +'</b>'
+        }
+        function build_google_map_url(){
+            var url = 'https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=';
+            var address_str = document.getElementById("address_str").value;
+            document.getElementById("google_map").href=url+address_str;
+        }
+        function build_rawdata_url(){
+            var url1 = 'http://staging-raw-data.movoto.com.s3.amazonaws.com/d';
+            var url2 = 'http://raw-data-test.movoto.com.s3.amazonaws.com/d'
+            var raw_data_id = document.getElementById("raw_data_id").value;
+            var mls_id = document.getElementById("mls_id").value;
+            document.getElementById("s3_rawdata").href=[url1, mls_id, raw_data_id].join("/");
+            document.getElementById("prod_s3_rawdata").href=[url2, mls_id, raw_data_id].join("/");
+        }
+        function convert_return(){
+            var rs = document.getElementById("rs_str").value;
+            lines = rs.split(',');
+            var s = '';
+            var i=0;
+            for(i=0;i<lines.length-1;i++){
+                s += lines[i]+'\n';
+            }
+            s+=lines[i];
+            document.getElementById('src_str').value = s;
+        }
+    </script>
+</head>
+<body>
+<table>
+<tr><td>
+<textarea rows="25" cols="50" name="" id="src_str" ondblclick="javascript:document.getElementById('src_str').value='';" on></textarea>
+</td>
+<td>
+<input type="button" name="" value="Convert" onclick="convert();" /> <br><br>
+<input type="button" name="" value="Convert to csv" onclick="convert_csv();" /><br><br>
+<input type="button" name="" value=" << " onclick="convert_return();" />
+
+</td>
+<td>
+<textarea rows="25" cols="50" name="" id="rs_str" ></textarea>
+</td>
+</table>
+
+<div id='item_count'> </div>
+
+<hr>
+
+criteria type: <br>
+ <input type="radio" name="ctype" value="raw_uuid" onclick="build_criteria()" />  raw_uuid<br>
+ <input type="radio" name="ctype" value='mls_sysid' checked=true onclick="build_criteria()" /> sysid<br> 
+<input type="radio" name="ctype" value='standardized_attrs.mls_number' onclick="build_criteria()" /> mls_number
+<br>
+key: <input id="raw_uuid" size="30" onchange='build_criteria();' onkeyup='build_criteria();' /><br>
+criteria: <input id="mongo_criteria" size="60" /><br>
+projection:  <input id="mongo_projection" value="{'standardized_attrs.mls_number':1,'standardized_attrs.mls_city':1, 'standardized_attrs.mls_zip_code':1, 'standardized_attrs.mls_state':1, 'standardized_attrs.mls_address':1, 'standardized_attrs.mls_street_name':1, 'standardized_attrs.mls_street_number':1, 'standardized_attrs.mls_street_direction':1, 'standardized_attrs.mls_street_designator':1}" size="100" /><br>
+
+
+
+<!-- {'type':'PROPERTY','mls_sysid':{'$in':['71893294','71967400','72010736','72001284','71971239','71960901','71926348','71983799','71931820']}} -->
+
+<br>
+<br>
+<p>
+<input size='80' id='address_str' value='N74w28721%20Zimmers%20Xing%2C%20Merton%2C%20WI%2C%2053029' onkeyup='build_google_map_url();' /> <br>
+<a id='google_map' target='_blank' href="https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=" >Google Map</a> <br>
+</p>
+<p>
+raw_uuid: <input size='40' id='raw_data_id' value='4824c066-439b-11e6-811d-02ff5bcb7ae5' onkeyup='build_rawdata_url();' /> <br>
+mls_id: <input size='40' id='mls_id' value='310' onkeyup='build_rawdata_url();' /> <br>
+<a id='s3_rawdata' target='_blank' href="http://staging-raw-data.movoto.com.s3.amazonaws.com/d/" >S3 Raw Data</a> <br>
+<a id='prod_s3_rawdata' target='_blank' href="http://raw-data-test.movoto.com.s3.amazonaws.com/d/" >S3 Raw Data Production</a> 
+</p>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>view RETS photo</title>
+<script type="text/javascript" language="JavaScript">
+function next_photo(){
+	var cid = document.getElementById("pid").innerHTML;
+	var i=0;
+	if (cid !=''){
+		i = parseInt(document.getElementById("pid").innerHTML,10);
+	}
+	
+	var rows = document.getElementById("url_list").value;
+	var lines;
+	var purl;
+	if (rows != ''){
+		lines = rows.split("\n");
+		if(i==lines.length){
+			i = 0;
+		}
+		purl = lines[i];
+	}
+	i++;
+	document.getElementById("pid").innerHTML=i;
+	document.getElementById("purl").innerHTML=purl;
+	document.getElementById("s_photo").src=purl;
+}
+function trim(str){
+    var s=str.replace(/^\s\s*/,'').replace(/\s\s*$/,'');
+    return s;
+}
+
+</script>
+</head>
+<body>
+<table>
+<tr>
+<td>
+<textarea id="url_list" rows="20" cols="80"></textarea>
+<br>
+<input value="Show" type="button" />
+
+<input value="Next" type="button" onclick="javascript:next_photo();" /><br>
+<span id="pid" ></span><br>
+<span id="purl" ></span>
+</td>
+
+<td>
+<img id="s_photo" width="700" height="600" src="" />
+</td>
+</tr>
+</table>
+
+<script type="text/javascript" language="JavaScript">
+
+</script>
+</body>
+</html>
