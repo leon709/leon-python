@@ -1,0 +1,63 @@
+<html>
+<head>
+	<title>第一个网页</title>
+</head>
+<script type="text/javascript">
+function getTimestamp(){
+	var startDate = new Date();
+	startDate.setFullYear(2010,10,3);
+	startDate.setHours(20,30,0);
+	
+	var d = new Date();
+	//var year = d.getFullYear(); 
+	//var month = adjustLength((d.getMonth()+1),2); 
+	//var dt = adjustLength(d.getDate(),2);
+	
+	milisDif = d.getTime() - startDate.getTime();	//与当前时刻的毫秒差
+	var msPerDay = 24*3600*1000;					//milion seconds per day
+	days = parseInt(milisDif/(msPerDay),10);		//天数
+	var remain = milisDif-days*msPerDay;
+	hours = parseInt(remain/(3600000),10);			//小时
+	remain -= hours*3600000;
+	mins = parseInt(remain/60000,10);				//分钟
+	remain -= mins*60000;
+	seconds = parseInt(remain/1000,10);				//秒
+	
+	var h = checkNum(hours,2);
+	var m = checkNum(mins,2);
+	var s = checkNum(seconds,2);
+	var ts =days+" Days "+ h+" Hours "+m+" Minutes "+s + " Seconds";
+	return ts;
+}
+function checkNum(num){
+	if(num<10){
+		return "0"+num;
+	}
+	return ""+num;
+}
+function adjustLength(num,len){
+	var numStr = String(num);
+	var n=len-numStr.length;
+	var s="";
+	for(var i=0;i<n;i++){
+		s=s+"0";	
+	}
+	return s+numStr;
+}
+function display(){
+	document.getElementById("ts").innerText = getTimestamp();
+}
+</script>
+	<body>
+		
+		<span>起点时间：2010-10-03 20:30:00</span><br>
+		至今：<br>
+		<span id='ts'></span>
+		
+		<script type="text/javascript">
+		var startDate = new Date("");
+		setInterval('display()',500);
+		
+		</script>
+	</body>
+</html>
