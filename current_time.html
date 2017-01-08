@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+function displayTime(){
+	
+	var day=new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
+	
+	var d = new Date(); 
+	
+	var hour;
+	var second;
+	var minute;
+	var year;
+	var month;
+	var date;
+
+	year = d.getFullYear(); 
+	month = d.getMonth()+1; 
+	date = d.getDate(); 
+	hour = d.getHours(); 
+	minute =d.getMinutes(); 
+	second = d.getSeconds(); 
+	
+	if(month<10) month="0"+month; 
+	if(date<10) date="0"+date; 
+	if(hour<10) hour="0"+hour; 
+	if(minute<10) minute="0"+minute; 
+	if(second<10) second="0"+second; 
+	
+	document.getElementById("time").innerHTML = year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second + " "+day[d.getDay()]; 
+	
+}
+function showTime(){
+	setInterval("displayTime()", 500); 
+}
+
+function checkLength(i){
+	if (i<10){i="0" + i}
+	return i
+}
+</script>
+</head>
+
+<body onload="showTime()">
+<div id="time"></div>
+
+<input type="button" value="test" onclick="test();" />
+
+<div id="year"></div>
+</body>
+</html>
