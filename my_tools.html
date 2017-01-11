@@ -76,6 +76,11 @@
             s+=lines[i];
             document.getElementById('src_str').value = s;
         }
+        
+        function go_jira_ticket(){
+        	tid = document.getElementById('ticket_id').value;
+        	window.location.href="https://movoto.atlassian.net/browse/"+tid; 
+        }
     </script>
 </head>
 <body>
@@ -123,6 +128,8 @@ mls_id: <input size='40' id='mls_id' value='310' onkeyup='build_rawdata_url();' 
 <a id='s3_rawdata' target='_blank' href="http://staging-raw-data.movoto.com.s3.amazonaws.com/d/" >S3 Raw Data</a> <br>
 <a id='prod_s3_rawdata' target='_blank' href="http://raw-data-test.movoto.com.s3.amazonaws.com/d/" >S3 Raw Data Production</a> 
 </p>
-
+<p>
+View JIRA Ticket: <input id='ticket_id' value="DATA-1074" /> <input type="button" value="Go" onclick="go_jira_ticket();"> 
+</p>
 </body>
 </html>

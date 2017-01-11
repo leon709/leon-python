@@ -91,10 +91,23 @@ After conflicts resolved, status is modified, need to do git add to make them st
 $ git add <files>
 $ git push
 
+
+============== rename branch ===============
+rename local branch:
+$ git branch -m <old_branch_name> <new_branch_name>
+
+rename remote branch is complicate and should be careful. because someone else may have checkout that branch.
+Follow bellow step to rename remote branch name:
+1. checkout and pull that remote branch to make sure you got the latest code and tree of the branch
+$ git checkout <o_br> && git pull
+2. make a copy by create a new branch
+$ git checkout -b <new_br>
+$ git push --set-upstream origin <new_br>
+$ git branch -d <local_old_branch>
+$ git push origin --delete <local_old_branch>
+
 ========reset local branch to remote branch status, discard any local changes ========
 git reset --hard origin/asso_url
-
-git reset --hard origin/develop
 
 
 ============== use ssh key to connect and operate the git ============================
