@@ -12,7 +12,7 @@ logger = logging.getLogger("tools")
 
 @app.route("/")
 def hello():
-    print app.jinja_loader.searchpath
+    
     
     return "Welcome!"
 
