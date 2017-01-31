@@ -210,3 +210,14 @@ rsync -aqvr --checksum /opt/code/mycode/abcd /home/leon/mycode
 # word count -lines
 wc -l city_state_invalid_listings.txt PROnly_Property_url_to_fix.txt
 
+=============Disk =======================
+$ fdisk -l
+$ df /etc
+$ df /boot
+$ sudo mount /dev/sda1 ~/mymount
+$ sudo umount ~/mymount
+$ df -h
+
+
+find -size +1000000k
+
