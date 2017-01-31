@@ -1,0 +1,23 @@
+[user]
+	name = leon
+	email = lsu@movoto.com
+[push]
+	default = simple
+[core]
+	editor = vim
+[alias]
+        st = status
+        ck = checkout
+        df = diff 
+        cp = cherry-pick
+        cm = commit
+        cmm = commit -m 
+        ckd = checkout develop
+        ckm = checkout master
+        br = branch
+        bra = branch -a
+        brav = branch -a -vv
+        mg = merge
+        mgd = merge develop
+        rs = reset
+        logs = log --oneline
