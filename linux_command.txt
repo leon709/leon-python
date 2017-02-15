@@ -158,11 +158,7 @@ ln -s /home/leon/git services
 
 copy file from remote machine by ssh:
 $ scp lsu@10.255.1.191:/mnt/log/test_addr_*.log ~/tmp/addr_test_log
-
-
-scp ubuntu@10.255.1.191:/opt/batchscripts/postconverter_feature/postconverter/src/cache_geo_data.dat /home/leon/eclipseworkspaces/Nova_Dev/src_postconverter
-
-
+scp ubuntu@10.255.1.47:/home/www2/.zshrc /home/leon/share/
 
 VI: 
  vi column edit:
@@ -218,6 +214,14 @@ $ sudo mount /dev/sda1 ~/mymount
 $ sudo umount ~/mymount
 $ df -h
 
+$ find -size +1000000k
 
-find -size +1000000k
 
+logstash:
+(echo -ne "MONITOR\r\n"; sleep 9999) | nc logs-redis-1.ng.movoto.net 6379 | grep --line-buffered 'kafka_msg'
+/opt/logstash/bin/logstash --configtest --verbose -f xxxx.conf
+
+/opt/logstash/bin/logstash --configtest --verbose -f /etc/logstash/conf.d/downloader-to-redis.conf
+service logstash restart
+
+(echo -ne "MONITOR\r\n"; sleep 9999) | nc logs-redis.host.xxx.net 6379 | grep --line-buffered 'Listing status already sync removed'
