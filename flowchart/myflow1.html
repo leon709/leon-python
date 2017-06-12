@@ -6,9 +6,9 @@
         <style type="text/css">
           .end-element { background-color : #FFCCFF; }
         </style>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.0/raphael-min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="http://flowchart.js.org/flowchart-latest.js"></script>
+        <script src="raphael-min.js"></script>
+        <script src="jquery.min.js"></script>
+        <script src="flowchart-latest.js"></script>
         <!-- <script src="../release/flowchart.min.js"></script> -->
         <script>
             window.onload = function () {
@@ -26,11 +26,11 @@
                     chart.drawSVG('canvas', {
                       // 'x': 30,
                       // 'y': 50,
-                      'line-width': 3,
-                      'maxWidth': 3,//ensures the flowcharts fits within a certian width
-                      'line-length': 50,
+                      'line-width': 2,
+                      'maxWidth': 2,//ensures the flowcharts fits within a certian width
+                      'line-length': 20,
                       'text-margin': 10,
-                      'font-size': 14,
+                      'font-size': 10,
                       'font': 'normal',
                       'font-family': 'Helvetica',
                       'font-weight': 'normal',
@@ -41,7 +41,7 @@
                       'yes-text': 'yes',
                       'no-text': 'no',
                       'arrow-end': 'block',
-                      'scale': 1,
+                      'scale': 0,
                       'symbols': {
                         'start': {
                           'font-color': 'red',
@@ -75,19 +75,67 @@
     <body>
         <div><textarea id="code" style="width: 100%;" rows="11">
 st=>start: Start
-e=>end: End
+nod1=>operation: Get MLS format address
 op1=>operation: My Operation
-op2=>operation: Stuff
-sub1=>operation: My Subroutine
-cond=>condition: Yes or No?
-c2=>condition: Good idea
-io=>operation: catch something...
+op26=>operation: 26 NO_CITY_ID
+op26c=>operation: 26 NO_CITY_ID
+op5=>operation: 5 MLS==USPS
+op5c=>operation: 5 MLS==USPS
+op9=>operation: 9 Call google with mls address
+op8=>operation: 8 CITY ZIP MIS_MATCH
+op10_1=>operation:  | 
+op10=>operation: 10 Discard_google Try_mls_city city_name_mapping
+op16=>operation: 16 Google USPS matching 
+op18=>operation: 18 USPS==google
+op21=>operation: 21 Get_usps prefer_city
+op22=>operation: 22 Call geocoder zip_service
+op24=>operation: 24 Call_google address
+sub1=>operation: 3 GEO USPS matching
+cond2=>condition: 2 MLS provide city_or_state?
+cond4=>condition: 4 MLS USPS matched?
+cond7=>condition: 7 MLS USPS matched?
+cond12=>condition: 12 Can Google Parse mls address?
+cond11=>condition: 11 MLS provide zip?
+cond13=>condition: 13 Country is US?
+cond14=>condition: 14 MLS_has_zip and zip_in_USPS?
+cond15=>condition: 15_Distance mls_zip and google_zip?
+cond15c=>condition: 15_Distance mls_zip and google_zip?
+cond17=>condition: 17 Google USPS_match?
+cond19=>condition: 19 Google city_name_mapping
+cond20=>condition: 20 MLS_zip exist_in_usps
+cond23=>condition: 23 ZIP_MATCH and country_US
+cond25=>condition: 25 Can_google parse_address
 
-st->op1(right)->cond
-cond(yes, right)->c2
-cond(no)->sub1
-c2(yes)->io->e
-c2(no)->op2->e
+st->nod1->cond2
+cond2(no, right)->cond11
+cond2(yes)->sub1->cond4
+cond4(yes)->op5
+cond4(no, right)->op9
+op9(right)->cond12
+cond12(no, right)->cond11
+cond12(yes)->cond13
+cond11(yes)->cond20
+cond11(no)->op26
+cond13(yes, right)->cond14
+cond13(no)->op10_1->op10
+cond14(yes)->cond15
+cond14(no, right)->op16
+cond15(yes, right)->op16
+cond15(no)->op10
+op16->cond17
+cond17(no)->cond19
+cond17(yes)->op18
+op10->cond7
+cond7(yes)->op5c
+cond7(no)->op8
+cond20(yes)->op21->op24
+cond20(no)->op22->cond23
+cond23(yes)->op24->cond25
+cond23(no, right)->op26
+cond25(yes)->cond15c
+cond25(no)->op26
+cond19(no)->op26c
+cond19(yes)->op18
         </textarea></div>
         <div><button id="run" type="button">Run</button></div>
         <div id="canvas"></div>

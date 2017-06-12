@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<script>
+function cnvs_getCoordinates(e){
+	x=e.clientX;
+	y=e.clientY;
+	document.getElementById("xycoordinates").innerHTML="xy: (" + x + ", " + y + ")";
+}
+
+function cnvs_clearCoordinates(){
+	document.getElementById("xycoordinates").innerHTML="";
+}
+
+function is_traced(node_id){
+	var node_list = document.getElementById("node_list").value.split("-");
+	for (var i=0;i<node_list.length;i++){
+	    if (parseInt(node_list[i], 10) == node_id){
+			return true;
+		}
+		
+	}
+	return false;
+}
+function is_traced_line(n1, n2){
+	var node_list = document.getElementById("node_list").value.split("-");
+	for (var i=0;i<node_list.length;i++){
+	    if (parseInt(node_list[i], 10) == n1 && parseInt(node_list[i+1], 10) == n2){
+			return true;
+		}
+		
+	}
+	return false;
+}
+function drawRect(node_id, x, y, width, height, txt) {
+	var rect = new Object();
+	rect.top = [x, y]
+	ctx.beginPath(); 
+	ctx.fillStyle = "#ffffff";
+	x0 = x - width/2
+	ctx.fillRect(x0, y, width, height);
+
+	ctx.beginPath(); 
+	line_color=default_color; //line color
+	if (is_traced(node_id)){
+		line_color=trace_color; //line color
+	}
+	ctx.strokeStyle=line_color;
+	ctx.lineWidth=1;
+	ctx.strokeRect(x0, y, width, height); 
+	
+	if (txt != ''){
+		addText(ctx, txt, x0+5, y+height/3, line_color)
+	}
+	ctx.closePath(); 
+	
+	rect.left = [x0, y + height/2];
+	rect.right = [x0 + width, y + height/2];
+	rect.bottom = [x, y + height];
+	
+	//showpoint([rect.top, rect.bottom, rect.left, rect.right]);
+	
+	return rect
+} 
+
+function drawDirectionLine(ctx, x1, y1, x2, y2, txt, line_color) {
+	var angle = Math.abs(Math.atan((x2 - x1) / (y2 - y1))); 
+	var length = 10; 
+	var degree = Math.PI / 6;
+	var theta = 0;
+	var altha = 0;
+	var a1 = 0;
+	var b1 = 0;
+	var a2 = 0;
+	var b2 = 0;
+
+	//console.log("angle: " + angle);
+	//console.log("degree: " + degree);
+
+	if (angle >= degree && angle <= Math.PI / 2 - degree) {
+		//console.log("30-60");
+		theta = angle - degree;
+		altha = Math.PI / 2 - 2 * degree - theta;
+		if (x2 >= x1) {
+			//console.log("x2 >= x1");
+			a1 = x2 - length * Math.sin(theta);
+			a2 = x2 - length * Math.cos(altha);
+		} else {
+			//console.log("x2 < x1");
+			a1 = x2 + length * Math.sin(theta);
+			a2 = x2 + length * Math.cos(altha);
+		}
+		if (y2 >= y1) {
+			//console.log("y2 >= y1");
+			b1 = y2 - length * Math.cos(theta);
+			b2 = y2 - length * Math.sin(altha);
+		} else {
+			//console.log("y2 < y1");
+			b1 = y2 + length * Math.cos(theta);
+			b2 = y2 + length * Math.sin(altha);
+		}
+	} else {
+		//console.log("0-30 && 60-90");
+		theta = angle - degree;
+		altha = theta + 2 * degree - Math.PI / 2;
+		if (x2 >= x1 && y2 >= y1) {
+			//console.log("x2 >= x1 && y2 >= y1");
+			a1 = x2 - length * Math.sin(theta);
+			b1 = y2 - length * Math.cos(theta);
+			a2 = x2 - length * Math.cos(altha);
+			b2 = y2 + length * Math.sin(altha);
+		} else if (x2 >= x1 && y2 < y1) {
+			//console.log("x2 >= x1 && y2 < y1");
+			a1 = x2 - length * Math.sin(theta);
+			b1 = y2 + length * Math.cos(theta);
+			a2 = x2 - length * Math.cos(altha);
+			b2 = y2 - length * Math.sin(altha);
+		} else if (x2 < x1 && y2 < y1) {
+			//console.log("x2 < x1 && y2 < y1");
+			a1 = x2 + length * Math.sin(theta);
+			b1 = y2 + length * Math.cos(theta);
+			a2 = x2 + length * Math.cos(altha);
+			b2 = y2 - length * Math.sin(altha);
+		} else {
+			//console.log("x2 < x1 && y2 >= y1");
+			a1 = x2 + length * Math.sin(theta);
+			b1 = y2 - length * Math.cos(theta);
+			a2 = x2 + length * Math.cos(altha);
+			b2 = y2 + length * Math.sin(altha);
+		}
+	}
+
+	ctx.strokeStyle=line_color;
+	
+	ctx.beginPath();
+	ctx.moveTo(x1, y1);
+	ctx.lineTo(x2, y2);
+	ctx.lineTo(a1, b1);
+	ctx.stroke();
+	ctx.moveTo(x2, y2);
+	ctx.lineTo(a2, b2);
+	ctx.stroke();
+
+	//console.log("x2: " + x2 + "   " + "y2: " + y2);
+	//console.log("a1: " + a1 + "   " + "b1: " + b1);
+	//console.log("a2: " + a2 + "   " + "b2: " + b2);
+
+	if (txt != ''){
+		txt_x = (x1 + x2) / 2;
+		txt_y = (y1 + y2) / 2;
+		addText(ctx, txt, txt_x, txt_y, line_color);
+	}
+}
+function arrowLine(ctx,x1,y1,x2,y2)
+{
+  var sta = new Array(x1,y1);
+  var end = new Array(x2,y2);
+
+  ctx.beginPath(); 
+  ctx.translate(0,0,0); 
+  ctx.moveTo(sta[0],sta[1]); 
+  ctx.lineTo(end[0],end[1]); 
+  ctx.fill();
+  ctx.stroke(); 
+  ctx.save();
+
+  ctx.translate(end[0],end[1]);
+
+  var ang=(end[0]-sta[0])/(end[1]-sta[1]);
+  ang=Math.atan(ang);
+  if(end[1]-sta[1] >= 0){
+	ctx.rotate(-ang);
+  }else{
+	ctx.rotate(Math.PI-ang);//
+  } 
+  ctx.lineTo(-5,-10); 
+  ctx.lineTo(0,-5); 
+  ctx.lineTo(5,-10); 
+  ctx.lineTo(0,0); 
+  ctx.fill(); //
+  ctx.restore();   //
+  ctx.closePath(); 
+}
+
+function showpoint(plist){
+	for(var p in plist){
+		txt_x = plist[p][0];
+		txt_y = plist[p][1];
+		addText(ctx, "(" + txt_x + "," + txt_y+")", txt_x, txt_y, '#FF0000');
+	}
+}
+
+function addText(ctx, txt, txt_x, txt_y, color){
+	ctx.font="15px Arial";
+	ctx.fillStyle = default_color;
+	ctx.strokeStyle= default_color;
+	if (color != ''){
+		ctx.fillStyle = color;
+		ctx.strokeStyle= color;
+	}
+	txt_list = txt.split("|n")
+	for(var t in txt_list){
+		ctx.fillText(txt_list[t], txt_x, txt_y);
+		txt_y += 15;
+	}
+	
+}
+
+function condition(node_id, x, y, w, h, txt){
+	var cond = new Object();
+	cond.top = [x, y];
+	
+	line_color=default_color; //line color
+	if (is_traced(node_id)){
+		line_color=trace_color; //line color
+	}
+	ctx.strokeStyle=line_color;
+	
+	ctx.moveTo(x, y);
+	ctx.beginPath();
+	right = [x+w/2, y+h/2];
+	bottom = [x, y+h];
+	left = [x-w/2, y+h/2];
+	ctx.lineTo(right[0], right[1]);
+	ctx.lineTo(bottom[0], bottom[1]);
+	ctx.lineTo(left[0], left[1]);
+	ctx.lineTo(x, y);
+	ctx.fillStyle = "#ffffff";
+	ctx.fill();
+	ctx.closePath();
+	
+	if (txt != ''){
+		txt_x = x - w/3 + 10;
+		txt_y = y + h/3 + 10;
+		addText(ctx, txt, txt_x, txt_y, line_color)
+	}
+	
+	ctx.stroke();
+	cond.left = left;
+	cond.right = right;
+	cond.bottom = bottom;
+	//showpoint([cond.top, cond.bottom, cond.left, cond.right]);
+	return cond
+}
+
+function join_node(from_point, to_point, txt, is_traced){
+	line_color=default_color;
+	if (is_traced){
+		line_color=trace_color; //line color
+	}
+	ctx.strokeStyle=line_color;
+	drawDirectionLine(ctx, from_point[0], from_point[1], to_point[0], to_point[1], txt, line_color);
+}
+function join_node1(from_point, to_point, txt, is_traced){
+	line_color=default_color;
+	if (is_traced){
+		line_color=trace_color; //line color
+	}
+	ctx.strokeStyle=line_color;
+	ctx.moveTo(from_point[0], from_point[1]);
+	ctx.lineTo(to_point[0], from_point[1]);
+	ctx.stroke();
+	drawDirectionLine(ctx, to_point[0], from_point[1], to_point[0], to_point[1], txt, line_color);
+}
+
+function join_node2(from_point, to_point, txt, is_traced){
+	line_color=default_color;
+	if (is_traced){
+		line_color=trace_color; //line color
+	}
+	ctx.strokeStyle=line_color;
+	ctx.moveTo(from_point[0], from_point[1]);
+	ctx.lineTo(from_point[0], to_point[1]);
+
+	ctx.stroke();
+	drawDirectionLine(ctx, from_point[0], to_point[1], to_point[0], to_point[1], txt, line_color);
+}
+
+function join_node3(from_point, to_point, txt, is_traced){
+	line_color=default_color;
+	if (is_traced){
+		line_color=trace_color; //line color
+	}
+	ctx.strokeStyle=line_color;
+	ctx.moveTo(from_point[0], from_point[1]);
+	ctx.lineTo(to_point[0]+20, from_point[1]);
+	addText(ctx, txt, (from_point[0]+to_point[0]+20)/2, from_point[1], line_color);
+	ctx.lineTo(to_point[0]+20, to_point[1]);
+	ctx.stroke();
+	drawDirectionLine(ctx, to_point[0]+20, to_point[1], to_point[0], to_point[1], '', line_color);
+}
+</script>
+   <body>
+	<input type="hidden" id="node_list" value="1-2-3-4-9-12-11-20-21-24-25-15-16-17-18" />
+	node list: 1-2-3-4-9-12-11-20-21-24-25-15-16-17-18 <br>
+	
+   	  <canvas width="1300" height="1200" id="myflowchart" style="border:1px solid #000000;" onclick="cnvs_getCoordinates(event)" onmouseout="">     
+   	         your browser not suuport H5 canvas
+   	  </canvas><br>
+	  <div id="xycoordinates"></div>
+   	  <script>
+   	  	   var default_color = "#6C6C6C";
+   	  	   var trace_color = "#00BB00";
+           var canvas=document.getElementById('myflowchart');
+           //alert(canvas);
+           var ctx=canvas.getContext('2d');
+           c0 = 100;
+		   c1 = 300;
+		   c2 = 530;
+		   c3 = 730;
+		   c4 = 950;
+		   c5 = 1150;
+           op1 = drawRect(1, c1, 50, 200, 50, '1 format mls address|n(address for geocoder)');
+		   console.log(op1)
+		   op3 = drawRect(3, c1, 280, 200, 80, '3 Call Geo DB|n(acceptable + prefer)|n city & state & zip match');
+		   cond2 = condition(2, c1, 150, 200, 80, '2 MLS provide |n city or state?');
+		   cond4 = condition(4, c1,400, 200, 80, '4 MLS USPS |nmatche(city, state, zip)?');
+		   cond7 = condition(7, c1,540, 160, 70, '7 MLS == USPS?');
+		   op5 = drawRect(5, c0, 550, 150, 50, '5 MLS==USPS |n use mls');
+		   op6 = drawRect(6, c0, 650, 100, 50, '6 MLS Wins|n End');
+		   op8 = drawRect(8, c1, 650, 100, 50, '8 Use MLS |n address');
+		   op8c = drawRect(8, c1, 750, 100, 50, 'CITY_ZIP_|nMISMATCH');
+		   op9 = drawRect(9, c2, 410, 130, 60, '9 Call Google |n address service');
+		   op10 = drawRect(10, c2, 545, 130, 60, '10 Discard google|n lookup mapping |n table');
+		   
+		   cond11 = condition(11, c4, 280, 160, 70, '11 MLS provided|n zip?');
+		   cond12 = condition(12, c3, 405, 160, 70, '12 Can google parse |n the address?');
+		   cond13 = condition(13, c3, 540, 160, 70, '13 Country is|n US?');
+		   cond14 = condition(14, c3, 650, 160, 70, '14 MLS Zip in|n usps?');
+		   cond15 = condition(15, c3, 760, 160, 70, '15 MLS Zip & Google|n Zip distance<10 mile?');
+		   cond17 = condition(17, c3, 970, 160, 70, '17 Google USPS|n Match?');
+		   cond20 = condition(20, c4, 405, 160, 70, '20 Zip exists|n in usps?');
+		   cond23 = condition(23, c5, 640, 160, 70, '23 Zip Match and|n country is US?');
+		   op16 = drawRect(16, c3, 870, 150, 60, '16 Call geodb with|n google city');
+		   
+		   op18 = drawRect(18, c2, 1050, 130, 60, '18 Use matched|n geodb result');
+		   op18c = drawRect(18, c2, 1150, 130, 50, ' GOOGLE|n GEODB');
+		   cond19 = condition(19, c4, 970, 160, 70, '19 Google city|n lookup mapping table?');
+		   cond25 = condition(25, c4, 760, 160, 70, '25 Google parse|n address success?');
+		   op21 = drawRect(21, c4, 550, 130, 50, '21 Get Prefer City');
+		   op22 = drawRect(22, c5, 550, 130, 50, '22 Call zip service|n with mls zip');
+		   op24 = drawRect(24, c4, 650, 130, 50, '24 Call google |n address service');
+		   op26 = drawRect(26, c5, 980, 140, 50, '26 Use mls address|n NO_CITY_ID');
+		   
+		   join_node(op1.bottom, cond2.top, '', is_traced_line(1, 2)); //op1->cond2
+		   join_node(cond2.bottom, op3.top, 'yes', is_traced_line(2, 3)); //cond2->op3
+		   join_node(op3.bottom, cond4.top, '', is_traced_line(3, 4)); //op3->cond4
+		   join_node(cond4.bottom, cond7.top, 'yes', is_traced_line(4, 7));//cond4->cond7
+		   join_node1(cond2.right, cond11.top, 'no', is_traced_line(2, 11));
+		   join_node(op5.bottom, op6.top, '', is_traced_line(5, 6));
+		   join_node1(cond4.left, op5.top, 'yes', is_traced_line(4, 5));
+		   join_node(cond4.right, op9.left, 'no', is_traced_line(4, 9));
+		   join_node(cond7.left, op5.right, 'yes', is_traced_line(7, 5));
+		   join_node(cond7.bottom, op8.top, 'no', is_traced_line(7, 8));
+		   join_node(op8.bottom, op8c.top, '', is_traced_line(8, 8));
+		   join_node(op9.right, cond12.left, '', is_traced_line(9, 12));
+		   join_node(cond12.bottom, cond13.top, 'yes', is_traced_line(12, 13));
+		   join_node(cond13.left, op10.right, 'no', is_traced_line(13, 10));
+		   join_node(op10.left, cond7.right, '', is_traced_line(10, 7));
+		   join_node(cond13.bottom, cond14.top, 'yes', is_traced_line(13, 14));
+		   join_node(cond14.bottom, cond15.top, 'yes', is_traced_line(14, 15));
+		   join_node(cond15.bottom, op16.top, 'yes', is_traced_line(15, 16));
+		   join_node1(cond15.left, op10.bottom, 'no', is_traced_line(15, 10));
+		   join_node(op16.bottom, cond17.top, '', is_traced_line(16, 17));  
+		   
+		   join_node(cond17.right, cond19.left, 'no', is_traced_line(17, 19));//
+		   
+		   join_node1(cond17.left, op18.top, 'yes', is_traced_line(17, 18));  //
+		   join_node2(cond19.bottom, op18.right, 'yes', is_traced_line(19, 18));
+		   join_node(op18.bottom, op18c.top, '', is_traced_line(18, 18));
+		   join_node2(cond12.top, cond11.left, 'no', is_traced_line(12, 11));
+		   join_node(cond11.bottom, cond20.top, 'yes', is_traced_line(11, 20));
+		   
+		   join_node(cond20.bottom, op21.top, 'yes', is_traced_line(20, 21)); //
+		   
+		   join_node1(cond20.right, op22.top, 'no', is_traced_line(20, 22));
+		   join_node(op21.bottom, op24.top, '', is_traced_line(21, 24));
+		   join_node(op24.bottom, cond25.top, '', is_traced_line(24, 25));
+		   join_node(cond25.left, cond15.right, 'yes', is_traced_line(25, 15));
+		   join_node(op22.bottom, cond23.top, '', is_traced_line(22, 23));
+		   join_node(cond23.left, op24.right, 'yes', is_traced_line(23, 24));
+		   join_node(cond19.right, op26.left, 'no', is_traced_line(19, 26));
+		   join_node1(cond25.right, op26.top, '', is_traced_line(25, 26));
+		   join_node(cond23.bottom, op26.top, 'no', is_traced_line(23, 26));
+		   join_node3(cond14.right, op16.right, 'no', is_traced_line(14, 16));
+		   join_node3(cond11.right, op26.right, 'no', is_traced_line(11, 26));
+		   
+		   ctx.closePath()
+		   ctx.stroke();
+   	  </script>
+   </body>
+</html>
