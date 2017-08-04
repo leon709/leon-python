@@ -43,6 +43,9 @@ take /mnt as example
  $ git pull
  $ git diff
 
+git merge source target --no-ff
+
+
 
 
 6. Terminator setting:
@@ -95,8 +98,10 @@ view process count:
 ~$ ps aux | grep 'ppppp' | wc -l
 
 kill process:
-kill -9 $(ps aux|grep 'adfad' |awk '{print $2}')
-kill -9 $(ps aux|grep 'ddd' |awk '{print $2}')
+kill -9 $(ps aux|grep 'uwsgi geoparse_uwsgi.ini' |awk '{print $2}')
+kill -9 $(ps aux|grep 'address_parsing' |awk '{print $2}')
+
+kill -9 $(ps aux|grep 'Microsoft Teams' |awk '{print $2}')
 
 
 11. Mysql
@@ -225,3 +230,6 @@ logstash:
 service logstash restart
 
 (echo -ne "MONITOR\r\n"; sleep 9999) | nc logs-redis.host.xxx.net 6379 | grep --line-buffered 'Listing status already sync removed'
+
+
+$ pyenv virtualenv www3
