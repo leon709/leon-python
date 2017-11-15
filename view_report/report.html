@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>getJSON获取数据</title> 
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="data/report-2017.11.13.js"></script>
+<style type="text/css"> 
+#divframe{ border:1px solid #999; width:500px; margin:0 auto;} 
+.loadTitle{ background:#CCC; height:30px;} 
+	
+.h_graph ul{margin:0 50px 0 60px;padding:1px 0 0 0;border:1px solid #ddd;border-top:0;border-right:0;font-size:11px;font-family:Tahoma, Geneva, sans-serif;list-style:none}
+.h_graph li{position:relative;margin:10px 0;vertical-align:top;white-space:nowrap}
+.h_graph .g_term{position:absolute;top:0;left:-60px;width:50px;font-weight:bold;color:#767676;line-height:20px;text-align:right}
+.h_graph .g_bar{display:inline-block;position:relative;height:20px;border:1px solid #ccc;border-left:0;background:#79FF79}
+.h_graph .g_bar span{position:absolute;top:0;right:-50px;width:40px;color:#767676;line-height:20px}
+</style> 
+<script type = "text/javascript" >
+function show_chart(){
+  full_with_cnt = 3000
+  data_html = ''
+  // reportData is a var defined in the js file which load in head js files
+  datestr = reportData['_id'];
+  $('#datestr').val(datestr);
+  $('#total').html(reportData['total'].new_property);
+  var all_keys = Object.keys(reportData);
+  for(var i = 0;i < all_keys.length; i++) {
+	state = all_keys[i];
+	if (state == 'total' || state=='_id'){
+	    continue;
+	}
+	new_property_cnt = reportData[state].new_property
+	//alert(all_keys[i]);
+	width = (new_property_cnt/full_with_cnt)*100
+	data_html += '<li><span class="g_term">'+state+'</span><span class="g_bar" style="width:'+width+'%"><span>'+new_property_cnt+'</span></span></li>';
+  }
+  $('#chart').html(data_html);
+}
+	
+$(function (){
+  $("#btn").click(function (){
+	  var js = document.createElement('script');
+	  js.onload = function(){
+	      show_chart();
+	  }
+	  rdate = $('#datestr').val();
+	  
+	  js.src = "data/report-"+rdate+".js";
+	  document.head.appendChild(js);
+	  
+  })
+  show_chart();
+})
+
+</script> 
+</head> 
+<body> 
+<!--<div id="divframe"> 
+<div class="loadTitle"> 
+<input type="button" value="show" id="btn1"/> 
+</div> 
+<div id="jsonTip"> 
+</div> 
+</div>
+-->
+<div style="font-weight:bold;color:#767676;font-size:17px;font-family:Tahoma, Geneva, sans-serif;list-style:none">
+	New Property Count for All states on Date: <input id='datestr' /><input type="button" value="show" id="btn"/> <br>
+	Total: <span id="total"></span>
+<div>
+<br>
+<div class="h_graph">
+    <ul id='chart'>
+    <li><span class="g_term">loading...</span></li>
+    </ul>
+</div>
+	
+</body> 
+</html> 
