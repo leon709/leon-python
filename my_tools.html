@@ -48,7 +48,7 @@
         function convert_csv(){
             var rows = document.getElementById("src_str").value;
             var lines = rows.split("\n");
-            var rs = lines.join()
+            var rs = lines.join(document.getElementById("join_delimiter").value)
             document.getElementById("rs_str").value=rs;
             document.getElementById("item_count").innerHTML='<b> Count: '+lines.length +'</b>'
         }
@@ -89,8 +89,8 @@
 <textarea rows="25" cols="50" name="" id="src_str" ondblclick="javascript:document.getElementById('src_str').value='';" on></textarea>
 </td>
 <td>
-<input type="button" name="" value="Convert" onclick="convert();" /> <br><br>
-<input type="button" name="" value="Convert to csv" onclick="convert_csv();" /><br><br>
+<input type="button" name="" value="Wrap" onclick="convert();" /> <br><br>
+<input type="button" name="" value="Join" onclick="convert_csv();" /><input name="delimiter" id="join_delimiter" value="," size="1" width="1"/> <br><br>
 <input type="button" name="" value=" << " onclick="convert_return();" />
 
 </td>
