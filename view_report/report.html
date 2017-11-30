@@ -120,6 +120,11 @@
 		$('#chart').html(data_html);
 	}
 
+	function show(){
+		$("#btn").click();
+		setTimeout("show()", 2000);
+	}
+
 	$(function() {
 		$("#btn").click(function() {
 			var js = document.createElement('script');
@@ -135,6 +140,7 @@
 		var yestoday = new Date(today.getTime()-24*3600*1000);
 		ds = yestoday.getFullYear()+'.'+(yestoday.getMonth()+1)+'.'+yestoday.getDate();
 		$('#datestr').val(ds);
+		//show();
 		$("#btn").click();
 	})
 </script>
