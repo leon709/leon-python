@@ -138,7 +138,13 @@
 		});
 		var today = new Date();
 		var yestoday = new Date(today.getTime()-24*3600*1000);
-		ds = yestoday.getFullYear()+'.'+(yestoday.getMonth()+1)+'.'+yestoday.getDate();
+		ds = yestoday.getFullYear()+'.'+(yestoday.getMonth()+1)
+		date_num = yestoday.getDate();
+		if (date_num < 10){
+			ds += '.0'+date_num;
+		}else{
+			ds += '.'+date_num;
+		}
 		$('#datestr').val(ds);
 		//show();
 		$("#btn").click();
