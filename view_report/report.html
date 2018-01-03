@@ -165,7 +165,7 @@
 </div>
 -->
 <div style="font-weight: bold; color: #767676; font-size: 17px; font-family: Tahoma, Geneva, sans-serif; list-style: none">
-Association report for all states on date: <input id='datestr' /> 
+Association report for all states on date: <input id='datestr' onchange='javascript:$("#btn").click();' /> 
 <select id='report_type' onchange='show_chart()'>
 	<option value='new_property' selected>new_property</option>
 	<option value='url_change'>url_change</option>
