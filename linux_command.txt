@@ -233,3 +233,27 @@ service logstash restart
 
 
 $ pyenv virtualenv www3
+
+
+curl -H 'X-MData-Key: CHUMAGATHUQ9VE7AYEBR' http://localhost:8888/property/mlsPublicRecordAssociations/url?url=home/111-justine-dr-sebastian-fl-32958-pid_8z3q67q8ah
+
+\\apple:
+Leon
+movoto$123
+
+connect to produciton:
+ssh -L 6001:movotodb-cluster-5.v2.ng.movoto.net:3306 ktang@bastion.v2.ng.movoto.net
+ssh -L 5001:db2.v2.ng.movoto.net:3306 ktang@bastion.v2.ng.movoto.net
+
+ssh -L 5001:normdb.v2.ng.movoto.net:3306 ktang@bastion.v2.ng.movoto.net
+ssh -L 5002:mongodb1.v2.ng.movoto.net:3306 ktang@bastion.v2.ng.movoto.net
+
+kafka:
+ssh -L 8888:admin1.v2.ng.movoto.net:8888 ktang@bastion.v2.ng.movoto.net
+
+SOA service:
+ssh -L 8888:service.v2.ng.movoto.net:80 ktang@bastion.v2.ng.movoto.net
+
+curl -H 'X-MData-Key: CHUMAGATHUQ9VE7AYEBR' http://backend.service.v2.ng.movoto.net/geocoder/address?address=30133%20Miller%20Road%2C%20Unincorporated%20San%20Diego%2C%20CA%2C%2092082
+curl -H 'X-MData-Key: CHUMAGATHUQ9VE7AYEBR' http://service.v2.ng.movoto.net/property/mlsPublicRecordAssociations/url?url=home/111-justine-dr-sebastian-fl-32958-pid_8z3q67q8ah
+curl -H 'X-MData-Key: CHUMAGATHUQ9VE7AYEBR' http://localhost:8888/property/mlsPublicRecordAssociations/url?url=home/111-justine-dr-sebastian-fl-32958-pid_8z3q67q8ah
