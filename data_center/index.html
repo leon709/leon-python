@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>用户登陆</title>
+  <link rel='stylesheet prefetch' href='css/bootstrap/3.0.2/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="css/style.css">
+  <script type='text/javascript'>
+  function submit_login(){
+	alert('ddd');
+  }
+  
+  </script>
+</head>
+
+<body>
+    <div class="wrapper">
+    <form class="form-signin">       
+      <h2 class="form-signin-heading">用户登陆</h2>
+      <input type="text" class="form-control" name="username" placeholder="用户名" required="" autofocus="" value="xiaoming" />
+      <input type="password" class="form-control" name="password" placeholder="密码" required="" value="11111111"/>      
+      <label class="checkbox">
+        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> 记住我
+      </label>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" onclick='submit_login();'>Login</button>   
+    </form>
+  </div>
+</body>
+</html>
