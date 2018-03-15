@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>State Report</title>
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="ichart.1.2.min.js"></script>
+
+<script type="text/javascript">
+//定义数据
+var data = [
+{'color': '#76a871', 'name': '11.05', 'value': 240},
+{'color': '#76a871', 'name': '11.06', 'value': 912},
+{'color': '#76a871', 'name': '11.07', 'value': 1376},
+{'color': '#76a871', 'name': '11.08', 'value': 211},
+{'color': '#76a871', 'name': '11.09', 'value': 252},
+{'color': '#76a871', 'name': '11.10', 'value': 247},
+{'color': '#76a871', 'name': '11.11', 'value': 88},
+{'color': '#76a871', 'name': '11.12', 'value': 46},
+{'color': '#76a871', 'name': '11.13', 'value': 222},
+{'color': '#76a871', 'name': '11.14', 'value': 209},
+{'color': '#76a871', 'name': '11.15', 'value': 194},
+{'color': '#76a871', 'name': '11.16', 'value': 232},
+{'color': '#76a871', 'name': '11.17', 'value': 214},
+{'color': '#76a871', 'name': '11.18', 'value': 82},
+{'color': '#76a871', 'name': '11.19', 'value': 45},
+{'color': '#76a871', 'name': '11.20', 'value': 193},
+{'color': '#76a871', 'name': '11.21', 'value': 153},
+{'color': '#76a871', 'name': '11.22', 'value': 139},
+{'color': '#76a871', 'name': '11.23', 'value': 46},
+{'color': '#76a871', 'name': '11.24', 'value': 60},
+{'color': '#76a871', 'name': '11.25', 'value': 33},
+{'color': '#76a871', 'name': '11.26', 'value': 30},
+{'color': '#76a871', 'name': '11.27', 'value': 2891},
+{'color': '#76a871', 'name': '11.28', 'value': 148},
+{'color': '#76a871', 'name': '11.29', 'value': 171},
+{'color': '#76a871', 'name': '11.30', 'value': 160},
+{'color': '#76a871', 'name': '12.01', 'value': 162},
+{'color': '#76a871', 'name': '12.02', 'value': 3615},
+{'color': '#76a871', 'name': '12.03', 'value': 674} ];
+var state = 'NY';
+
+max_val = 0;
+for (var i=0;i<data.length;i++){
+    if (data[i]['value']>max_val){
+    	max_val = data[i]['value'];
+    }
+} 
+scale_ = max_val/20;
+$(function(){
+	var chart = new iChart.Column2D({
+		render : 'canvasDiv',//渲染的Dom目标,canvasDiv为Dom的ID
+		data: data,//绑定数据
+		title : 'New Property For State '+state,//设置标题
+		width : 1800,//设置宽度，默认单位为px
+		height : 800,//设置高度，默认单位为px
+		shadow:true,//激活阴影
+		shadow_color:'#c7c7c7',//设置阴影颜色
+		coordinate:{//配置自定义坐标轴
+			scale:[{//配置自定义值轴
+				 position:'left',//配置左值轴	
+				 start_scale:0,//设置开始刻度为0
+				 scale_space:scale_,//设置刻度间距
+				 listeners:{//配置事件
+					parseText:function(t,x,y){//设置解析值轴文本
+						return {text:t}
+					}
+				}
+			}]
+		}
+	});
+	//调用绘图方法开始绘图
+	chart.draw();
+
+
+});
+</script>
+</head>
+<body>
+state report:
+<div id='canvasDiv'></div>
+
+</body>
