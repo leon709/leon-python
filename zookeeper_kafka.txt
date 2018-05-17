@@ -1,0 +1,42 @@
+
+download zookeeper:
+wget http://mirror.bit.edu.cn/apache/zookeeper/stable/zookeeper-3.4.12.tar.gz
+cd /opt/tools/ 
+tar zxf zookeeper-3.4.12.tar.gz
+
+download kafka:
+cd /opt/tools/ 
+wget http://mirror.bit.edu.cn/apache/kafka/1.1.0/kafka_2.11-1.1.0.tgz
+tar zxf kafka_2.11-1.1.0.tgz
+
+
+
+start zookeeper server:
+cd /opt/tools/zookeeper-3.4.12 && bin/zkServer.sh start
+
+stop zookeeper server:
+cd /opt/tools/zookeeper-3.4.12 && bin/zkServer.sh stop
+
+
+client:
+/opt/tools/zookeeper-3.4.12 && bin/zkCli.sh
+
+type: quit / help 
+
+
+create a kafka server config file:
+$ cat server.properties | grep -v '#'  >> kafka1.properties
+
+start kafka server:
+$ bin/kafka-server-start.sh config/kafka1.properties
+
+
+create a new topic: 
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic leon_test
+
+start a producer:
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic leon_test
+
+consumer:
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic leon_test
+
