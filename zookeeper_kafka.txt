@@ -9,8 +9,6 @@ cd /opt/tools/
 wget http://mirror.bit.edu.cn/apache/kafka/1.1.0/kafka_2.11-1.1.0.tgz
 tar zxf kafka_2.11-1.1.0.tgz
 
-
-
 start zookeeper server:
 cd /opt/tools/zookeeper-3.4.12 && bin/zkServer.sh start
 
@@ -29,7 +27,14 @@ $ cat server.properties | grep -v '#'  >> kafka1.properties
 
 start kafka server:
 $ bin/kafka-server-start.sh config/kafka1.properties
+or
+$ bin/kafka-server-start.sh -daemon config/kafka1.properties
 
+# the script <kafka_home>/bin/kafka-server-stop.sh doesn't work correctly, because of the ps and grep is not correct
+# we can fix it by change the line 'ps' to below:
+# PIDS=$(jps | grep Kafka | awk '{print $1}')
+# stop the kafka server:
+cd /opt/tools/kafka_2.11-1.1.0 && bin/kafka-server-stop.sh && cd -
 
 create a new topic: 
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic leon_test
@@ -39,4 +44,11 @@ bin/kafka-console-producer.sh --broker-list localhost:9092 --topic leon_test
 
 consumer:
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic leon_test
+
+# some alias can set in ~/.bashrc
+alias zkstart='cd /opt/tools/zookeeper-3.4.12 && bin/zkServer.sh start && cd -'
+alias zkstop='cd /opt/tools/zookeeper-3.4.12 && bin/zkServer.sh stop && cd -'
+alias zkstatus='cd /opt/tools/zookeeper-3.4.12 && bin/zkServer.sh status && cd -'
+alias kfkstart='cd /opt/tools/kafka_2.11-1.1.0 && bin/kafka-server-start.sh -daemon config/kafka1.properties && cd -'
+alias kfkstop='cd /opt/tools/kafka_2.11-1.1.0 && bin/kafka-server-stop.sh && cd -'
 
