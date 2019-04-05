@@ -1,0 +1,96 @@
+# Save the buffer
+C-x C-s
+    Save(write) the current buffer
+C-x s
+    Save any or all buffers to their files
+C-x C-w
+    Save as(new file name, you can specify)
+M-~
+    Forget that the current buffer has changed
+
+View a variable:
+C-h v , then type the variable name, RET
+C-h k , check key binding
+C-h f , view function
+
+
+Set variable:
+(setq-default tab-width 4)
+or: M-x set-variable RET
+
+# indent
+1) select a regin, then C-x TAB, then <left>, <right> to test
+
+# edit in columns
+1> C-x SPC
+2> select columns
+3> C-x r t , it means retangle
+4> then edit in the mini buffer
+
+# switch buffer
+1> C-x b
+2> C-x C-b
+3> The previous buffer: C-x <RIGHT>
+4> THe next buffer: C-x <LEFT>
+
+# undo and redo
+undo: C-x u   or    C- _
+redo:  
+
+# Go to line
+M-g g RET, then type your line number, then RET
+Actually, its full command is:
+M-x goto-line RET
+Quick way: M-g g RET , then input the line number value and RET
+
+C-x (           kmacro-start-macro
+C-x )           kmacro-end-macro  
+
+C-h  : show help
+C-x C-h: list all the binded keys
+
+# to show the line numbers in emacs editor
+1. set in current buffer only:
+M-x display-line-numbers-mode RET
+short way to do:
+M-x d-nu
+M-x di-n
+
+2. set in all the buffer, global:
+M-x global-display-line-numbers-mode RET
+short way to do: M-x gl-d RET
+
+# M-x: global-set-key RET, then press your key, then type the func you want to bind
+M-x: gl-se RET
+
+# a key binding example in my ~/.emacs
+(global-set-key (kbd "C-x t") 'untabify)
+
+When you typing command in M-x, type SPC can help auto complete the command
+M-x then type some char, RET, there will be a list of functions, if it not match to a single function
+
+
+abcd
+adfaf
+adfadf
+
+
+|----|----|-----|
+|3c21| cat| 6374|
+|6874| cat| 3e3c|
+|2063| cat| 7273|
+|202f| cat| 3c6d|
+|6965| cat| 6f72|
+|2277| cat| 7468|
+
+
+qy110205
+021790
+Shuige#jzzjf
+
+qy20181102
+pi=3.141
+061833
+314159
+H2Ogehao
+
