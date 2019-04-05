@@ -15,7 +15,6 @@ Or
 3. change the directory owner
 take /mnt as example
 ~$ sudo chown -R leon:leon mnt
-~$ rm -rf xxxxx/ && mkdir fffff
 
 ~$ sudo chmod 755
 ~$ chmod 755 restart_property_history_consumer.sh
@@ -43,9 +42,7 @@ take /mnt as example
  $ git pull
  $ git diff
 
-git merge source target --no-ff
-
-
+git merge branch/source branch/target --no-ff
 
 
 6. Terminator setting:
@@ -85,7 +82,6 @@ $ route -n
 
 delete router:
 ***$ sudo route del -net 10.255.1.0 netmask 255.255.255.0 gw 10.0.125.211
-
 ***$ sudo route add -net 172.24.0.0 netmask 255.255.0.0 gw 10.0.125.211
 ***$ sudo route add -net 10.255.1.0 netmask 255.255.255.0 gw 10.0.125.211
 
@@ -98,10 +94,7 @@ view process count:
 ~$ ps aux | grep 'ppppp' | wc -l
 
 kill process:
-kill -9 $(ps aux|grep 'uwsgi geoparse_uwsgi.ini' |awk '{print $2}')
-kill -9 $(ps aux|grep 'address_parsing' |awk '{print $2}')
-
-kill -9 $(ps aux|grep 'Microsoft Teams' |awk '{print $2}')
+kill -9 $(ps aux|grep 'ibus' |awk '{print $2}')
 
 
 11. Mysql
@@ -158,14 +151,15 @@ $ chmod 755 restart_property_history_consumer.sh
 	$ source bin/activate
 
 
-19: link
-ln -s /home/leon/git services
 
 copy file from remote machine by ssh:
 $ scp lsu@10.255.1.191:/mnt/log/test_addr_*.log ~/tmp/addr_test_log
-scp ubuntu@10.255.1.47:/home/www2/.zshrc /home/leon/share/
+$ scp ubuntu@10.255.1.47:/home/www2/.zshrc /home/leon/share/
+push file to remote:
+$ scp -r myfile.txt usr@ip:/path/to/
 
-VI: 
+
+vim: 
  vi column edit:
  1. Ctrl+V
  2. use up/down to select rows
@@ -209,7 +203,7 @@ sudo dpkg-reconfigure locales
 rsync -aqvr --checksum /opt/code/mycode/abcd /home/leon/mycode
 
 # word count -lines
-wc -l city_state_invalid_listings.txt PROnly_Property_url_to_fix.txt
+# wc -l city_state_invalid_listings.txt PROnly_Property_url_to_fix.txt
 
 =============Disk =======================
 $ fdisk -l
@@ -235,25 +229,20 @@ service logstash restart
 $ pyenv virtualenv www3
 
 
-curl -H 'X-MData-Key: CHUMAGATHUQ9VE7AYEBR' http://localhost:8888/property/mlsPublicRecordAssociations/url?url=home/111-justine-dr-sebastian-fl-32958-pid_8z3q67q8ah
+--------------------------
+all default:
+1. two weeks to expire
+2. the session record in db will be deleted when user do logout manually.
+3. user operation request will not extense the expire time
 
-\\apple:
-Leon
-movoto$123
+----------------------
+set: SESSION_COOKIE_AGE = 60* 30
+1. expire time will be 30 minutes later, and user operation request will not extense the expire time
 
-connect to produciton:
-ssh -L 6001:movotodb-cluster-5.v2.ng.movoto.net:3306 ktang@bastion.v2.ng.movoto.net
-ssh -L 5001:db2.v2.ng.movoto.net:3306 ktang@bastion.v2.ng.movoto.net
+---------------------
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 60*30
 
-ssh -L 5001:normdb.v2.ng.movoto.net:3306 ktang@bastion.v2.ng.movoto.net
-ssh -L 5002:mongodb1.v2.ng.movoto.net:3306 ktang@bastion.v2.ng.movoto.net
+1. expire time will be 30 minutes later, and user operation request will extense and refresh the expire time
 
-kafka:
-ssh -L 8888:admin1.v2.ng.movoto.net:8888 ktang@bastion.v2.ng.movoto.net
-
-SOA service:
-ssh -L 8888:service.v2.ng.movoto.net:80 ktang@bastion.v2.ng.movoto.net
-
-curl -H 'X-MData-Key: CHUMAGATHUQ9VE7AYEBR' http://backend.service.v2.ng.movoto.net/geocoder/address?address=30133%20Miller%20Road%2C%20Unincorporated%20San%20Diego%2C%20CA%2C%2092082
-curl -H 'X-MData-Key: CHUMAGATHUQ9VE7AYEBR' http://service.v2.ng.movoto.net/property/mlsPublicRecordAssociations/url?url=home/111-justine-dr-sebastian-fl-32958-pid_8z3q67q8ah
-curl -H 'X-MData-Key: CHUMAGATHUQ9VE7AYEBR' http://localhost:8888/property/mlsPublicRecordAssociations/url?url=home/111-justine-dr-sebastian-fl-32958-pid_8z3q67q8ah
+---------------------
