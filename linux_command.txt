@@ -15,7 +15,6 @@ Or
 3. change the directory owner
 take /mnt as example
 ~$ sudo chown -R leon:leon mnt
-
 ~$ sudo chmod 755
 ~$ chmod 755 restart_property_history_consumer.sh
 
@@ -27,8 +26,11 @@ take /mnt as example
 ~$ find /home -name 'abc*'
 ~$ find /home -name '*abc'
 
-# 
-~$ grep -rn 'xx dxdd' *.py
+$ alias fullpath='find $PWD -maxdepth 1 -name '
+$ fullpath mappingterms.txt
+
+# search files contains 'xxx'
+~$ grep -rn 'xx' *.py
 
 
 5. Git command:
@@ -114,9 +116,18 @@ $ tail -f filename.log
 14. Some directory operation
 $ cd -
 $ cd ..
-$ cd 
-
+$ cd
+$ pushd
+$ pushd /home/leon/xxx
+$ dirs -v
+$ popd /home/leon/xxx
 $ cp /home/leon/xxx -r /home/leon/eclipseworkspaces/
+
+$ date -v -3d "+%Y-%m-%d %H:%M:%S"
+2019-04-05 13:41:54
+$ date -v -3d +%s
+1554442928
+$ date -r 1554442928 "+%Y-%m-%d %H:%M:%S"
 
 15. crontab:
 /etc/crontab
