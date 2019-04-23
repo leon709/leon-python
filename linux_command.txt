@@ -210,6 +210,16 @@ locale-gen en_US.UTF-8
 sudo dpkg-reconfigure locales
 =======================================================================
 
+## tcpdump
+sudo tcpdump -i any port 9092
+sudo tcpdump -nAi any port 9092
+
+check the server outport ip address:
+$ curl ifconfig.co
+
+curl with proxy:
+$ curl -x http://172.93.232.145:8800  google.com
+
 
 rsync -aqvr --checksum /opt/code/mycode/abcd /home/leon/mycode
 
@@ -238,6 +248,10 @@ service logstash restart
 
 
 $ pyenv virtualenv www3
+
+
+
+
 
 
 --------------------------
