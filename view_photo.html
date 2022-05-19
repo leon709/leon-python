@@ -1,55 +1,68 @@
 <html>
 <head>
-<title>view photos</title>
-<script type="text/javascript" language="JavaScript">
-function next_photo(delta){
-	var cid = document.getElementById("pid").innerHTML;
-	var i=0;
-	if (cid !=''){
-		i = parseInt(document.getElementById("pid").innerHTML,10);
-	}
-	
-	var rows = document.getElementById("url_list").value;
-	var lines;
-	var purl;
-	if (rows != ''){
-		lines = rows.split("\n");
-	}
-	
-	i += delta;
-	if (i<=0){i=0;}
-	if (i>=lines.length){i=lines.length-1;}
-	
-	purl = lines[i];
-	
-	document.getElementById("pid").innerHTML=i;
-	document.getElementById("purl").innerHTML=purl;
-	document.getElementById("s_photo").src=purl;
-}
-function trim(str){
-    var s=str.replace(/^\s\s*/,'').replace(/\s\s*$/,'');
-    return s;
-}
+    <title>view photos</title>
+    <script type="text/javascript" language="JavaScript">
+        function next_photo(delta) {
+            var cid = document.getElementById("pid").innerHTML;
+            var i = 0;
+            if (cid != '') {
+                i = parseInt(document.getElementById("pid").innerHTML, 10);
+            }
 
-</script>
+            var rows = document.getElementById("url_list").value;
+            var lines;
+            var purl;
+            if (rows != '') {
+                lines = rows.split("\n");
+            }
+
+            i += delta;
+            if (i <= 0) {
+                i = 0;
+            }
+            if (i >= lines.length) {
+                i = lines.length - 1;
+            }
+
+            purl = lines[i];
+
+            document.getElementById("pid").innerHTML = i;
+            document.getElementById("purl").innerHTML = purl;
+            document.getElementById("s_photo").src = purl;
+
+            var j;
+            var imgs = '';
+            for (j=0;j<lines.length;j++) {
+                imgs += '<img width="60px" src="' + lines[j] + '" />';
+            }
+            document.getElementById('all_images').innerHTML = imgs;
+        }
+
+        function trim(str) {
+            var s = str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+            return s;
+        }
+    </script>
 </head>
 <body>
 <table>
-<tr>
-<td>
-<textarea id="url_list" rows="20" cols="80" onchange="javascript:next_photo(0);"></textarea>
-<br>
-<input value=" << " type="button" onclick="javascript:next_photo(-1);" />
-<input value=" >> " type="button" onclick="javascript:next_photo(1);" /><br>
-<span id="pid" ></span><br>
-<span id="purl" ></span>
-</td>
+    <tr>
+        <td>
+            <textarea id="url_list" rows="20" cols="80" onchange="javascript:next_photo(0);"></textarea>
+            <br>
+            <input value=" << " type="button" onclick="javascript:next_photo(-1);"/>
+            <input value=" >> " type="button" onclick="javascript:next_photo(1);"/><br>
+            <span id="pid"></span><br>
+            <span id="purl"></span>
+        </td>
 
-<td>
-<img id="s_photo" width="700" height="600" src="" />
-</td>
-</tr>
+        <td>
+            <img id="s_photo" width="500" src=""/>
+        </td>
+    </tr>
 </table>
+
+<div id="all_images"></div>
 
 <script type="text/javascript" language="JavaScript">
 
